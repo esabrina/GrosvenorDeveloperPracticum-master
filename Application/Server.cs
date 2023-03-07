@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Application.Interfaces;
+using Domain;
+using System;
 using System.Collections.Generic;
 
 namespace Application
@@ -11,7 +13,7 @@ namespace Application
         {
             _dishManager = dishManager;
         }
-        
+
         public string TakeOrder(string unparsedOrder)
         {
             try
@@ -21,32 +23,33 @@ namespace Application
                 string returnValue = FormatOutput(dishes);
                 return returnValue;
             }
-            catch (ApplicationException)
+            catch (ArgumentException)
             {
                 return "error";
             }
         }
 
+        private void RaiseOrderItemError() => throw new ArgumentException("Order needs to be comma separated list of numbers");
 
         private Order ParseOrder(string unparsedOrder)
         {
-            var returnValue = new Order
+            var orderItems = unparsedOrder.Split(',');
+            var returnValue = new Order(orderItems[0])
             {
                 Dishes = new List<int>()
             };
 
-            var orderItems = unparsedOrder.Split(',');
-            foreach (var orderItem in orderItems)
+            // list order must have at least two items (a daytime menu and a dish)
+            if (orderItems.Length < 2) RaiseOrderItemError();
+
+            for (int i = 1; i < orderItems.Length; i++)
             {
-                if (int.TryParse(orderItem, out int parsedOrder))
-                {
+                if (int.TryParse(orderItems[i], out int parsedOrder))
                     returnValue.Dishes.Add(parsedOrder);
-                }
                 else
-                {
-                    throw new ApplicationException("Order needs to be comma separated list of numbers");
-                }
+                    RaiseOrderItemError();
             }
+
             return returnValue;
         }
 

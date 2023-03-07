@@ -70,3 +70,41 @@ Solution must:
 | Evening,1, 2, 2, 4 | steak,potato(x2),cake |
 | evening,1, 2, 3, 5 | error |
 | evening,1, 3, 2, 3 | error |
+
+
+## Developer Solution - How to use it 
+
+It can be accessed by ConsoleApp or REST API
+
+1. For ConsoleApp:
+
+    1.1. Run ConsoleApp project
+    ```.NET CLI
+    dotnet run --project GrosvenorDeveloperPracticum 
+    ````
+    1.2. Type an order and press **Enter** 
+    ```.NET CLI
+    morning, 1, 2, 3
+    ````
+
+2. For REST API: 
+
+	2.1. Pre-requisite: It's necessary .NET 7 to run REST API and integration tests.
+	
+	2.2. Run API project.
+    ```.NET CLI
+    dotnet run --project API 
+    ````
+    2.3. For more information about using the API, see Swagger (http://localhost:5271/swagger/) or find the postman collection on root directory.
+    
+    2.4. Post an order.
+    
+    ```cURL
+    curl --location 'http://localhost:5271/order' \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "menu": "morning",
+      "dishes": [1,2,3]
+    }'
+    ````
+

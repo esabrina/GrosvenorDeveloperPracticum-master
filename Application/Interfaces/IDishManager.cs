@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Domain;
+using System.Collections.Generic;
 
-namespace Application
+namespace Application.Interfaces
 {
 
     public interface IDishManager
@@ -8,7 +9,7 @@ namespace Application
         /// <summary>
         /// Constructs a list of dishes, each dish with a name and a count
         /// </summary>
-        /// <param name="order"></param>
+        /// <param name="order">daytime menu with a list of dishes</param>
         /// <returns></returns>
         List<Dish> GetDishes(Order order);
     }
